@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import PhpParserSingleton from '../phpParser';
-import { Engine } from 'php-parser';
 import * as fs from 'fs';
 
 class AnalyzeFile extends vscode.Disposable
@@ -23,13 +21,7 @@ const analyzeFile = async (context: vscode.ExtensionContext) => {
         return;
     }
     
-    const parser = PhpParserSingleton.getInstance();
     const document = editor.document;
-    const phpFile = fs.readFileSync(document.fileName) ;
-
-    // Perform your analysis on the text using the parser
-    const ast = parser.parseCode(phpFile.toString(), document.fileName);
-    console.log('AST:', ast);
 
     // Display a message to the user
     vscode.window.showInformationMessage(`Analyzed file: ${document.fileName}`);

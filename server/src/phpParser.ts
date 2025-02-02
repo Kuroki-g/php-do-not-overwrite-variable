@@ -16,3 +16,11 @@ class PhpParserSingleton {
 }
 
 export default PhpParserSingleton;
+
+
+// const parser = PhpParserSingleton.getInstance();
+// const phpFile = fs.readFileSync(document.fileName) ;
+
+// // Perform your analysis on the text using the parser
+// const ast = parser.parseCode(phpFile.toString(), document.fileName);
+// console.log('AST:', ast);

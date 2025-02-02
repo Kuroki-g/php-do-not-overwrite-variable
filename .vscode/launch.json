@@ -15,7 +15,10 @@
         "--disable-extensions",
         "${workspaceFolder}/examples"
       ], 
-      "outFiles": ["${workspaceFolder}/out/**/*.js"],
+      "outFiles": [
+        "${workspaceFolder}/client/out/**/*.js",
+        "${workspaceFolder}/server/out/**/*.js"
+      ],
       "preLaunchTask": "${defaultBuildTask}"
     }
   ]
