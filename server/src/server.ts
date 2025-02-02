@@ -107,7 +107,7 @@ connection.onDidChangeConfiguration(change => {
 		documentSettings.clear();
 	} else {
 		globalSettings = (
-			(change.settings.languageServerExample || defaultSettings)
+			(change.settings.phpDoNotOverwriteVariable || defaultSettings)
 		);
 	}
 	// Refresh the diagnostics since the `maxNumberOfProblems` could have changed.
@@ -124,7 +124,7 @@ function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
 	if (!result) {
 		result = connection.workspace.getConfiguration({
 			scopeUri: resource,
-			section: 'languageServerExample'
+			section: 'phpDoNotOverwriteVariable'
 		});
 		documentSettings.set(resource, result);
 	}
@@ -139,6 +139,7 @@ documents.onDidClose(e => {
 
 connection.languages.diagnostics.on(async (params) => {
 	const document = documents.get(params.textDocument.uri);
+    console.log(params.textDocument.uri);
 	if (document !== undefined) {
 		return {
 			kind: DocumentDiagnosticReportKind.Full,
@@ -157,6 +158,7 @@ connection.languages.diagnostics.on(async (params) => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent(change => {
+    console.log(change.document.uri);
 	validateTextDocument(change.document);
 });
 

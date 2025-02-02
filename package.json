@@ -14,9 +14,10 @@
 	},
   "categories": [
     "Other"
-  ],
+   ],
 	"activationEvents": [
-		"onLanguage:plaintext"
+		"onLanguage:plaintext",
+    "onLanguage:php"
 	],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -30,13 +31,13 @@
 			"type": "object",
 			"title": "Example configuration",
 			"properties": {
-				"languageServerExample.maxNumberOfProblems": {
+				"phpDoNotOverwriteVariable.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"languageServerExample.trace.server": {
+				"phpDoNotOverwriteVariable.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [
