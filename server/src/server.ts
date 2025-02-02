@@ -29,13 +29,15 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 import { GlobalState } from "./GlobalState";
 import { type ExtensionSettings, defaultSettings } from "./types";
 import { validatePHPDocument } from "./validatePHPDocument";
+import { ConnectionSingleton } from "./Connection";
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
-export const connection = createConnection(ProposedFeatures.all);
 
 // Create a simple text document manager.
 const documents = new TextDocuments(TextDocument);
+
+const connection = ConnectionSingleton.getInstance();
 
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;

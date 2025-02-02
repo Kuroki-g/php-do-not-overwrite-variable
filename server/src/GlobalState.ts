@@ -1,7 +1,5 @@
-// import { defaultSettings, ExtensionSettings } from "./types";
-
-import { connection } from "./server";
 import { defaultSettings, type ExtensionSettings } from "./types";
+import { ConnectionSingleton } from "./Connection";
 
 export class GlobalState {
 	private static instance: GlobalState;
@@ -36,10 +34,11 @@ export class GlobalState {
 			return currentSetting;
 		}
 
-		const newSetting = connection.workspace.getConfiguration({
-			scopeUri: resource,
-			section: "phpDoNotOverwriteVariable",
-		});
+		const newSetting =
+			ConnectionSingleton.getInstance().workspace.getConfiguration({
+				scopeUri: resource,
+				section: "phpDoNotOverwriteVariable",
+			});
 		GlobalState.getInstance().documentSettings.set(resource, newSetting);
 
 		return newSetting;
