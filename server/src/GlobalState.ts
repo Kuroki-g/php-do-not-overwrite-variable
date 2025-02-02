@@ -3,14 +3,14 @@
 export class GlobalState {
 	private static instance: GlobalState;
 
-	public hasConfigurationCapability: boolean = false;
+	public hasConfigurationCapability = false;
 
-	public hasWorkspaceFolderCapability: boolean = false;
+	public hasWorkspaceFolderCapability = false;
 
-	public hasDiagnosticRelatedInformationCapability: boolean = false;
+	public hasDiagnosticRelatedInformationCapability = false;
 
-    // TODO: server.tsから引きはがす
-    // public settings: ExtensionSettings = defaultSettings;
+	// TODO: server.tsから引きはがす
+	// public settings: ExtensionSettings = defaultSettings;
 
 	private constructor() {}
 
