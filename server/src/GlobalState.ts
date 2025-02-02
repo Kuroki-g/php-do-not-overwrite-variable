@@ -1,3 +1,5 @@
+// import { defaultSettings, ExtensionSettings } from "./types";
+
 export class GlobalState {
 	private static instance: GlobalState;
 
@@ -6,6 +8,9 @@ export class GlobalState {
 	public hasWorkspaceFolderCapability: boolean = false;
 
 	public hasDiagnosticRelatedInformationCapability: boolean = false;
+
+    // TODO: server.tsから引きはがす
+    // public settings: ExtensionSettings = defaultSettings;
 
 	private constructor() {}
 
