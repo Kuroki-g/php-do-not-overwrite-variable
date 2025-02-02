@@ -57,7 +57,7 @@
     "watch": "tsc -b -w",
     "pretest": "npm run compile && npm run lint",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-    "lint": "npx @biomejs/biome check",
+    "lint": "cd client && npm run lint && cd ../server && npm run lint && cd ..",
     "test": "sh ./scripts/e2e.sh"
   },
   "devDependencies": {

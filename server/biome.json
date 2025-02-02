@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": ["out/*.js", "out/*.js.map"]
 	},
 	"formatter": {
 		"enabled": true,

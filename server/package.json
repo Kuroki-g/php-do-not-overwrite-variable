@@ -23,6 +23,7 @@
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
 		"lint": "npx @biomejs/biome check",
+		"lint:fix": "npx @biomejs/biome check --fix",
 		"test": "vscode-test"
 	},
 	"devDependencies": {
