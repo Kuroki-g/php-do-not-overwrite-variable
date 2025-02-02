@@ -1,6 +1,12 @@
+/**
+ * Copyright (c) 2025 G-kuroki. All rights reserved.
+ * Modified part is licensed under GPL-3.0 License. 
+ * See LICENSE in the project root for license information.
+ * Original part is licensed under MIT License. See README.md in the project root for license information.
+ */
 /* --------------------------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
+ * Licensed under the MIT License. See License section in README.md in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 import {
 	createConnection,
@@ -22,6 +28,7 @@ import {
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
+import { defaultSettings, ExtensionSettings } from './types';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -86,19 +93,13 @@ connection.onInitialized(() => {
 	}
 });
 
-// The example settings
-interface ExampleSettings {
-	maxNumberOfProblems: number;
-}
-
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000 };
-let globalSettings: ExampleSettings = defaultSettings;
+let globalSettings: ExtensionSettings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings = new Map<string, Thenable<ExampleSettings>>();
+const documentSettings = new Map<string, Thenable<ExtensionSettings>>();
 
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
@@ -115,7 +116,7 @@ connection.onDidChangeConfiguration(change => {
 	connection.languages.diagnostics.refresh();
 });
 
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
+function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
