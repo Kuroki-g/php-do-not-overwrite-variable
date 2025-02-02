@@ -16,6 +16,10 @@
       {
         "command": "php-do-not-overwrite-variable.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "php-do-not-overwrite-variable.helloWorld",
+        "title": "Analyze current activated php file"
       }
     ]
   },

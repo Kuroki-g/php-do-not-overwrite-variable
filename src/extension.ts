@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import analyzeFile from './commands/analyzeFile';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -19,7 +20,9 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('Hello World from PHP DO NOT OVERWRITE VARIABLE!');
 	});
 
-	context.subscriptions.push(disposable);
+    const disposable2 = vscode.commands.registerCommand('php-do-not-overwrite-variable.analyzeFile', () => analyzeFile(context));
+
+	context.subscriptions.push(disposable, disposable2);
 }
 
 // This method is called when your extension is deactivated
