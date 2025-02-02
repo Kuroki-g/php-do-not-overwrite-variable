@@ -28,6 +28,7 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { GlobalState } from "./GlobalState";
 import { type ExtensionSettings, defaultSettings } from "./types";
+import { validatePHPDocument } from "./validatePHPDocument";
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -135,53 +136,53 @@ documents.onDidChangeContent((change) => {
 	validatePHPDocument(change.document);
 });
 
-async function validatePHPDocument(
-	textDocument: TextDocument,
-): Promise<Diagnostic[]> {
-	// In this simple example we get the settings for every validate run.
-	const settings = await GlobalState.getDocumentSettings(textDocument.uri);
+// async function validatePHPDocument(
+// 	textDocument: TextDocument,
+// ): Promise<Diagnostic[]> {
+// 	// In this simple example we get the settings for every validate run.
+// 	const settings = await GlobalState.getDocumentSettings(textDocument.uri);
 
-	// The validator creates diagnostics for all uppercase words length 2 and more
-	const text = textDocument.getText();
-	const pattern = /\b[A-Z]{2,}\b/g;
-	let m: RegExpExecArray | null;
+// 	// The validator creates diagnostics for all uppercase words length 2 and more
+// 	const text = textDocument.getText();
+// 	const pattern = /\b[A-Z]{2,}\b/g;
+// 	let m: RegExpExecArray | null;
 
-	let problems = 0;
-	const diagnostics: Diagnostic[] = [];
-	// biome-ignore lint/suspicious/noAssignInExpressions: TODO: 現時点で説明を確認していないためそのうち修正する。
-	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
-		problems++;
-		const diagnostic: Diagnostic = {
-			severity: DiagnosticSeverity.Warning,
-			range: {
-				start: textDocument.positionAt(m.index),
-				end: textDocument.positionAt(m.index + m[0].length),
-			},
-			message: `${m[0]} is all uppercase.`,
-			source: "ex",
-		};
-		if (GlobalState.getInstance().hasDiagnosticRelatedInformationCapability) {
-			diagnostic.relatedInformation = [
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range),
-					},
-					message: "Spelling matters",
-				},
-				{
-					location: {
-						uri: textDocument.uri,
-						range: Object.assign({}, diagnostic.range),
-					},
-					message: "Particularly for names",
-				},
-			];
-		}
-		diagnostics.push(diagnostic);
-	}
-	return diagnostics;
-}
+// 	let problems = 0;
+// 	const diagnostics: Diagnostic[] = [];
+// 	// biome-ignore lint/suspicious/noAssignInExpressions: TODO: 現時点で説明を確認していないためそのうち修正する。
+// 	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
+// 		problems++;
+// 		const diagnostic: Diagnostic = {
+// 			severity: DiagnosticSeverity.Warning,
+// 			range: {
+// 				start: textDocument.positionAt(m.index),
+// 				end: textDocument.positionAt(m.index + m[0].length),
+// 			},
+// 			message: `${m[0]} is all uppercase.`,
+// 			source: "ex",
+// 		};
+// 		if (GlobalState.getInstance().hasDiagnosticRelatedInformationCapability) {
+// 			diagnostic.relatedInformation = [
+// 				{
+// 					location: {
+// 						uri: textDocument.uri,
+// 						range: Object.assign({}, diagnostic.range),
+// 					},
+// 					message: "Spelling matters",
+// 				},
+// 				{
+// 					location: {
+// 						uri: textDocument.uri,
+// 						range: Object.assign({}, diagnostic.range),
+// 					},
+// 					message: "Particularly for names",
+// 				},
+// 			];
+// 		}
+// 		diagnostics.push(diagnostic);
+// 	}
+// 	return diagnostics;
+// }
 
 connection.onDidChangeWatchedFiles((_change) => {
 	// Monitored files have change in VSCode
