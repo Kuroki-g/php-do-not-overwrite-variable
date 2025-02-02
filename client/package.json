@@ -5,6 +5,9 @@
   "engines": {
     "vscode": "^1.96.0"
   },
+  "scripts": {
+    "lint": "npx @biomejs/biome check"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/mocha": "^10.0.10",
