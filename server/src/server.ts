@@ -31,7 +31,7 @@ import { type ExtensionSettings, defaultSettings } from "./types";
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
-const connection = createConnection(ProposedFeatures.all);
+export const connection = createConnection(ProposedFeatures.all);
 
 // Create a simple text document manager.
 const documents = new TextDocuments(TextDocument);
@@ -108,23 +108,6 @@ connection.onDidChangeConfiguration((change) => {
 	connection.languages.diagnostics.refresh();
 });
 
-function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
-	if (!GlobalState.getInstance().hasConfigurationCapability) {
-		return Promise.resolve(globalSettings);
-	}
-	let result = GlobalState.getInstance().documentSettings.get(resource);
-	if (result) {
-		return result;
-	}
-
-	result = connection.workspace.getConfiguration({
-		scopeUri: resource,
-		section: "phpDoNotOverwriteVariable",
-	});
-	GlobalState.getInstance().documentSettings.set(resource, result);
-	return result;
-}
-
 // Only keep settings for open documents
 documents.onDidClose((e) => {
 	GlobalState.getInstance().documentSettings.delete(e.document.uri);
@@ -156,7 +139,7 @@ async function validatePHPDocument(
 	textDocument: TextDocument,
 ): Promise<Diagnostic[]> {
 	// In this simple example we get the settings for every validate run.
-	const settings = await getDocumentSettings(textDocument.uri);
+	const settings = await GlobalState.getDocumentSettings(textDocument.uri);
 
 	// The validator creates diagnostics for all uppercase words length 2 and more
 	const text = textDocument.getText();

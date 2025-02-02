@@ -1,6 +1,7 @@
 // import { defaultSettings, ExtensionSettings } from "./types";
 
-import type { ExtensionSettings } from "./types";
+import { connection } from "./server";
+import { defaultSettings, type ExtensionSettings } from "./types";
 
 export class GlobalState {
 	private static instance: GlobalState;
@@ -11,10 +12,7 @@ export class GlobalState {
 
 	public hasDiagnosticRelatedInformationCapability = false;
 
-    public documentSettings: Map<string, Thenable<ExtensionSettings>> = new Map();
-
-	// TODO: server.tsから引きはがす
-	// public settings: ExtensionSettings = defaultSettings;
+	public documentSettings: Map<string, Thenable<ExtensionSettings>> = new Map();
 
 	private constructor() {}
 
@@ -23,5 +21,27 @@ export class GlobalState {
 			GlobalState.instance = new GlobalState();
 		}
 		return GlobalState.instance;
+	}
+
+	public static getDocumentSettings(
+		resource: string,
+	): Thenable<ExtensionSettings> {
+		if (!GlobalState.getInstance().hasConfigurationCapability) {
+			return Promise.resolve(defaultSettings);
+		}
+
+		const currentSetting =
+			GlobalState.getInstance().documentSettings.get(resource);
+		if (currentSetting) {
+			return currentSetting;
+		}
+
+		const newSetting = connection.workspace.getConfiguration({
+			scopeUri: resource,
+			section: "phpDoNotOverwriteVariable",
+		});
+		GlobalState.getInstance().documentSettings.set(resource, newSetting);
+
+		return newSetting;
 	}
 }
