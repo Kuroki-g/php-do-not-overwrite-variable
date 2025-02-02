@@ -36,10 +36,9 @@ const connection = createConnection(ProposedFeatures.all);
 // Create a simple text document manager.
 const documents = new TextDocuments(TextDocument);
 
-const globalState = GlobalState.getInstance();
-
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
+    const globalState = GlobalState.getInstance();
 
 	// Does the client support the `workspace/configuration` request?
 	// If not, we fall back using global settings.
@@ -65,7 +64,7 @@ connection.onInitialize((params: InitializeParams) => {
 			},
 		},
 	};
-	if (globalState.hasWorkspaceFolderCapability) {
+	if (GlobalState.getInstance().hasWorkspaceFolderCapability) {
 		result.capabilities.workspace = {
 			workspaceFolders: {
 				supported: true,
@@ -76,14 +75,14 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onInitialized(() => {
-	if (globalState.hasConfigurationCapability) {
+	if (GlobalState.getInstance().hasConfigurationCapability) {
 		// Register for all configuration changes.
 		connection.client.register(
 			DidChangeConfigurationNotification.type,
 			undefined,
 		);
 	}
-	if (globalState.hasWorkspaceFolderCapability) {
+	if (GlobalState.getInstance().hasWorkspaceFolderCapability) {
 		connection.workspace.onDidChangeWorkspaceFolders((_event) => {
 			connection.console.log("Workspace folder change event received.");
 		});
@@ -99,7 +98,7 @@ let globalSettings: ExtensionSettings = defaultSettings;
 const documentSettings = new Map<string, Thenable<ExtensionSettings>>();
 
 connection.onDidChangeConfiguration((change) => {
-	if (globalState.hasConfigurationCapability) {
+	if (GlobalState.getInstance().hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
@@ -113,7 +112,7 @@ connection.onDidChangeConfiguration((change) => {
 });
 
 function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
-	if (!globalState.hasConfigurationCapability) {
+	if (!GlobalState.getInstance().hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
 	let result = documentSettings.get(resource);
@@ -178,7 +177,7 @@ async function validatePHPDocument(
 			message: `${m[0]} is all uppercase.`,
 			source: "ex",
 		};
-		if (globalState.hasDiagnosticRelatedInformationCapability) {
+		if (GlobalState.getInstance().hasDiagnosticRelatedInformationCapability) {
 			diagnostic.relatedInformation = [
 				{
 					location: {
