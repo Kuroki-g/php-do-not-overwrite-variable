@@ -1,4 +1,7 @@
 import * as vscode from 'vscode';
+import PhpParserSingleton from '../phpParser';
+import { Engine } from 'php-parser';
+import * as fs from 'fs';
 
 class AnalyzeFile extends vscode.Disposable
 {
@@ -19,14 +22,14 @@ const analyzeFile = async (context: vscode.ExtensionContext) => {
         vscode.window.showInformationMessage('No active editor found.');
         return;
     }
-
-    const document = editor.document;
-    const text = document.getText();
     
-    // Perform your analysis on the text
-    // For example, you can log the text to the console
-    console.log('Analyzing file:', document.fileName);
-    console.log('File content:', text);
+    const parser = PhpParserSingleton.getInstance();
+    const document = editor.document;
+    const phpFile = fs.readFileSync(document.fileName) ;
+
+    // Perform your analysis on the text using the parser
+    const ast = parser.parseCode(phpFile.toString(), document.fileName);
+    console.log('AST:', ast);
 
     // Display a message to the user
     vscode.window.showInformationMessage(`Analyzed file: ${document.fileName}`);
