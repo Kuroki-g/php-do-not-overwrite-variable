@@ -10,3 +10,9 @@ What I want to:
 - [ ] Add above by comment or specific prefix
 
 This is the README for your extension "php-do-not-overwrite-variable". After writing up a brief description, we recommend including the following sections.
+
+## In progress
+
+For analyzing PHP code, I am checking the following:
+
+- <https://github.com/nikic/PHP-Parser>
