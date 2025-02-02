@@ -24,7 +24,6 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "lint": "eslint client",
     "test": "vscode-test"
   },
