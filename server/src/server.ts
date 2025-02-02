@@ -38,7 +38,7 @@ const documents = new TextDocuments(TextDocument);
 
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
-    const globalState = GlobalState.getInstance();
+	const globalState = GlobalState.getInstance();
 
 	// Does the client support the `workspace/configuration` request?
 	// If not, we fall back using global settings.
@@ -94,13 +94,10 @@ connection.onInitialized(() => {
 // but could happen with other clients.
 let globalSettings: ExtensionSettings = defaultSettings;
 
-// Cache the settings of all open documents
-const documentSettings = new Map<string, Thenable<ExtensionSettings>>();
-
 connection.onDidChangeConfiguration((change) => {
 	if (GlobalState.getInstance().hasConfigurationCapability) {
 		// Reset all cached document settings
-		documentSettings.clear();
+		GlobalState.getInstance().documentSettings.clear();
 	} else {
 		globalSettings =
 			change.settings.phpDoNotOverwriteVariable || defaultSettings;
@@ -115,20 +112,22 @@ function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
 	if (!GlobalState.getInstance().hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
-	let result = documentSettings.get(resource);
-	if (!result) {
-		result = connection.workspace.getConfiguration({
-			scopeUri: resource,
-			section: "phpDoNotOverwriteVariable",
-		});
-		documentSettings.set(resource, result);
+	let result = GlobalState.getInstance().documentSettings.get(resource);
+	if (result) {
+		return result;
 	}
+
+	result = connection.workspace.getConfiguration({
+		scopeUri: resource,
+		section: "phpDoNotOverwriteVariable",
+	});
+	GlobalState.getInstance().documentSettings.set(resource, result);
 	return result;
 }
 
 // Only keep settings for open documents
 documents.onDidClose((e) => {
-	documentSettings.delete(e.document.uri);
+	GlobalState.getInstance().documentSettings.delete(e.document.uri);
 });
 
 connection.languages.diagnostics.on(async (params) => {
@@ -138,6 +137,7 @@ connection.languages.diagnostics.on(async (params) => {
 		kind: DocumentDiagnosticReportKind.Full,
 		items: [] as Diagnostic[],
 	} satisfies DocumentDiagnosticReport;
+
 	if (document !== undefined) {
 		const items = await validatePHPDocument(document);
 		report.items.push(...items);
