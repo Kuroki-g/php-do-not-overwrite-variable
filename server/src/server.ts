@@ -132,13 +132,13 @@ connection.languages.diagnostics.on(async (params) => {
 	return report satisfies DocumentDiagnosticReport;
 });
 
-// The content of a text document has changed. This event is emitted
-// when the text document first opened or when its content has changed.
-documents.onDidChangeContent((change) => {
-	validatePHPDocument(change.document);
-});
+// An event that fires when a text document managed by this manager has been opened or the content changes.
+// documents.onDidChangeContent((change) => {
+// 	console.debug(`onDidChangeContent: ${change.document.uri}`);
+// 	validateTxtDocument(change.document);
+// });
 
-// async function validatePHPDocument(
+// async function validateTxtDocument(
 // 	textDocument: TextDocument,
 // ): Promise<Diagnostic[]> {
 // 	// In this simple example we get the settings for every validate run.
