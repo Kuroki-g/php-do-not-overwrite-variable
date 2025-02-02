@@ -29,6 +29,7 @@ import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 import { defaultSettings, ExtensionSettings } from './types';
+import { GlobalState } from './GlobalState';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -37,22 +38,20 @@ const connection = createConnection(ProposedFeatures.all);
 // Create a simple text document manager.
 const documents = new TextDocuments(TextDocument);
 
-let hasConfigurationCapability = false;
-let hasWorkspaceFolderCapability = false;
-let hasDiagnosticRelatedInformationCapability = false;
+const globalState = GlobalState.getInstance();
 
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
 
 	// Does the client support the `workspace/configuration` request?
 	// If not, we fall back using global settings.
-	hasConfigurationCapability = !!(
+	globalState.hasConfigurationCapability = !!(
 		capabilities.workspace && !!capabilities.workspace.configuration
 	);
-	hasWorkspaceFolderCapability = !!(
+	globalState.hasWorkspaceFolderCapability = !!(
 		capabilities.workspace && !!capabilities.workspace.workspaceFolders
 	);
-	hasDiagnosticRelatedInformationCapability = !!(
+	globalState.hasDiagnosticRelatedInformationCapability = !!(
 		capabilities.textDocument &&
 		capabilities.textDocument.publishDiagnostics &&
 		capabilities.textDocument.publishDiagnostics.relatedInformation
@@ -71,7 +70,7 @@ connection.onInitialize((params: InitializeParams) => {
 			}
 		}
 	};
-	if (hasWorkspaceFolderCapability) {
+	if (globalState.hasWorkspaceFolderCapability) {
 		result.capabilities.workspace = {
 			workspaceFolders: {
 				supported: true
@@ -82,11 +81,11 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onInitialized(() => {
-	if (hasConfigurationCapability) {
+	if (globalState.hasConfigurationCapability) {
 		// Register for all configuration changes.
 		connection.client.register(DidChangeConfigurationNotification.type, undefined);
 	}
-	if (hasWorkspaceFolderCapability) {
+	if (globalState.hasWorkspaceFolderCapability) {
 		connection.workspace.onDidChangeWorkspaceFolders(_event => {
 			connection.console.log('Workspace folder change event received.');
 		});
@@ -102,7 +101,7 @@ let globalSettings: ExtensionSettings = defaultSettings;
 const documentSettings = new Map<string, Thenable<ExtensionSettings>>();
 
 connection.onDidChangeConfiguration(change => {
-	if (hasConfigurationCapability) {
+	if (globalState.hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
@@ -117,7 +116,7 @@ connection.onDidChangeConfiguration(change => {
 });
 
 function getDocumentSettings(resource: string): Thenable<ExtensionSettings> {
-	if (!hasConfigurationCapability) {
+	if (!globalState.hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
 	let result = documentSettings.get(resource);
@@ -138,31 +137,27 @@ documents.onDidClose(e => {
 
 
 connection.languages.diagnostics.on(async (params) => {
+    console.debug(`start diagnostics: ${params.textDocument.uri}`);
 	const document = documents.get(params.textDocument.uri);
-    console.log(params.textDocument.uri);
+    const report = {
+        kind: DocumentDiagnosticReportKind.Full,
+        items: [] as Diagnostic[]
+    } satisfies DocumentDiagnosticReport;
 	if (document !== undefined) {
-		return {
-			kind: DocumentDiagnosticReportKind.Full,
-			items: await validateTextDocument(document)
-		} satisfies DocumentDiagnosticReport;
-	} else {
-		// We don't know the document. We can either try to read it from disk
-		// or we don't report problems for it.
-		return {
-			kind: DocumentDiagnosticReportKind.Full,
-			items: []
-		} satisfies DocumentDiagnosticReport;
-	}
+        const items = await validatePHPDocument(document);
+        report.items.push(...items);
+	} 
+    console.debug(`end diagnostics: ${params.textDocument.uri}`);
+    return report satisfies DocumentDiagnosticReport;
 });
 
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent(change => {
-    console.log(change.document.uri);
-	validateTextDocument(change.document);
+	validatePHPDocument(change.document);
 });
 
-async function validateTextDocument(textDocument: TextDocument): Promise<Diagnostic[]> {
+async function validatePHPDocument(textDocument: TextDocument): Promise<Diagnostic[]> {
 	// In this simple example we get the settings for every validate run.
 	const settings = await getDocumentSettings(textDocument.uri);
 
@@ -184,7 +179,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<Diagnos
 			message: `${m[0]} is all uppercase.`,
 			source: 'ex'
 		};
-		if (hasDiagnosticRelatedInformationCapability) {
+		if (globalState.hasDiagnosticRelatedInformationCapability) {
 			diagnostic.relatedInformation = [
 				{
 					location: {
