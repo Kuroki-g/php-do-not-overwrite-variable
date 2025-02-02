@@ -6,7 +6,9 @@
 	"engines": {
 		"vscode": "^1.96.0"
 	},
-	"categories": ["Other"],
+	"categories": [
+		"Other"
+	],
 	"activationEvents": [],
 	"main": "./client/out/extension",
 	"contributes": {
@@ -24,7 +26,8 @@
 		"pretest": "npm run compile && npm run lint",
 		"lint": "npx @biomejs/biome check",
 		"lint:fix": "npx @biomejs/biome check --fix",
-		"test": "vscode-test"
+		"test:unit": "mocha -r ts-node/register ./src/test/**/*.test.ts",
+		"test:e2e": "vscode-test"
 	},
 	"devDependencies": {
 		"@types/mocha": "^10.0.10",
@@ -32,6 +35,8 @@
 		"@types/vscode": "^1.96.0",
 		"@vscode/test-cli": "^0.0.10",
 		"@vscode/test-electron": "^2.4.1",
+		"mocha": "^11.1.0",
+		"ts-node": "^10.9.2",
 		"typescript": "^5.7.2"
 	},
 	"dependencies": {
