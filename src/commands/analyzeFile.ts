@@ -15,20 +15,21 @@ class AnalyzeFile extends vscode.Disposable
 
 const analyzeFile = async (context: vscode.ExtensionContext) => {
     const editor = vscode.window.activeTextEditor;
-    if (editor) {
-        const document = editor.document;
-        const text = document.getText();
-        
-        // Perform your analysis on the text
-        // For example, you can log the text to the console
-        console.log('Analyzing file:', document.fileName);
-        console.log('File content:', text);
-
-        // Display a message to the user
-        vscode.window.showInformationMessage(`Analyzed file: ${document.fileName}`);
-    } else {
+    if (!editor) {
         vscode.window.showInformationMessage('No active editor found.');
+        return;
     }
+
+    const document = editor.document;
+    const text = document.getText();
+    
+    // Perform your analysis on the text
+    // For example, you can log the text to the console
+    console.log('Analyzing file:', document.fileName);
+    console.log('File content:', text);
+
+    // Display a message to the user
+    vscode.window.showInformationMessage(`Analyzed file: ${document.fileName}`);
 };
 
 
