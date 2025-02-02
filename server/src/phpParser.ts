@@ -1,4 +1,4 @@
-import * as phpParser from 'php-parser';
+import * as phpParser from "php-parser";
 
 class PhpParserSingleton {
 	private static instance: phpParser.Engine;
@@ -16,7 +16,6 @@ class PhpParserSingleton {
 }
 
 export default PhpParserSingleton;
-
 
 // const parser = PhpParserSingleton.getInstance();
 // const phpFile = fs.readFileSync(document.fileName) ;
