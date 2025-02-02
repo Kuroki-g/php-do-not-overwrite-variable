@@ -49,11 +49,8 @@ connection.onInitialize((params: InitializeParams) => {
 	globalState.hasWorkspaceFolderCapability = !!(
 		capabilities.workspace && !!capabilities.workspace.workspaceFolders
 	);
-	globalState.hasDiagnosticRelatedInformationCapability = !!(
-		capabilities.textDocument &&
-		capabilities.textDocument.publishDiagnostics &&
-		capabilities.textDocument.publishDiagnostics.relatedInformation
-	);
+	globalState.hasDiagnosticRelatedInformationCapability =
+		!!capabilities.textDocument?.publishDiagnostics?.relatedInformation;
 
 	const result: InitializeResult = {
 		capabilities: {
@@ -169,6 +166,7 @@ async function validatePHPDocument(
 
 	let problems = 0;
 	const diagnostics: Diagnostic[] = [];
+	// biome-ignore lint/suspicious/noAssignInExpressions: TODO: 現時点で説明を確認していないためそのうち修正する。
 	while ((m = pattern.exec(text)) && problems < settings.maxNumberOfProblems) {
 		problems++;
 		const diagnostic: Diagnostic = {
