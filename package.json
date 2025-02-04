@@ -58,7 +58,8 @@
     "pretest": "npm run compile && npm run lint",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "lint": "cd client && npm run lint && cd ../server && npm run lint && cd ..",
-    "test": "sh ./scripts/e2e.sh"
+    "test": "sh ./scripts/e2e.sh",
+    "license": "cd client && npx license-checker --production --json > LICENSES.json && cd ../server && npx license-checker --production --json > LICENSES.json && cd .."
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

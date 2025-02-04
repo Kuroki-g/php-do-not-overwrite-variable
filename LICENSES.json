@@ -1,0 +1,10 @@
+{
+  "php-do-not-overwrite-variable@0.0.1": {
+    "licenses": "GPL-3.0",
+    "repository": "https://github.com/Kuroki-g/php-do-not-overwrite-variable",
+    "publisher": "Kuroki-g",
+    "path": "/home/kuroki/php-do-not-overwrite-variable",
+    "licenseFile": "/home/kuroki/php-do-not-overwrite-variable/LICENSE"
+  }
+}
+

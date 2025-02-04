@@ -1,0 +1,49 @@
+{
+  "php-do-not-overwrite-variable-server@0.0.1": {
+    "licenses": "GPL-3.0",
+    "path": "/home/kuroki/php-do-not-overwrite-variable/server"
+  },
+  "php-parser@3.2.2": {
+    "licenses": "BSD-3-Clause",
+    "repository": "https://github.com/glayzzle/php-parser",
+    "publisher": "Ioan CHIRIAC",
+    "path": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/php-parser",
+    "licenseFile": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/php-parser/LICENSE"
+  },
+  "vscode-jsonrpc@8.2.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-jsonrpc",
+    "licenseFile": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-jsonrpc/License.txt"
+  },
+  "vscode-languageserver-protocol@3.17.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver-protocol",
+    "licenseFile": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver-protocol/License.txt"
+  },
+  "vscode-languageserver-textdocument@1.0.12": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver-textdocument",
+    "licenseFile": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver-textdocument/License.txt"
+  },
+  "vscode-languageserver-types@3.17.5": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver-types",
+    "licenseFile": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver-types/License.txt"
+  },
+  "vscode-languageserver@9.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/Microsoft/vscode-languageserver-node",
+    "publisher": "Microsoft Corporation",
+    "path": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver",
+    "licenseFile": "/home/kuroki/php-do-not-overwrite-variable/server/node_modules/vscode-languageserver/License.txt"
+  }
+}
+

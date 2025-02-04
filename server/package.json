@@ -1,7 +1,8 @@
 {
-	"name": "php-do-not-overwrite-variable",
+	"name": "php-do-not-overwrite-variable-server",
 	"displayName": "PHP DO NOT OVERWRITE VARIABLE",
 	"description": "For everyone who do not want overwrite variable!",
+    "license": "GPL-3.0",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.96.0"
