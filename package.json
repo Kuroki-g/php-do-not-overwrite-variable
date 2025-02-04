@@ -12,13 +12,8 @@
   "engines": {
     "vscode": "^1.96.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onLanguage:plaintext",
-    "onLanguage:php"
-  ],
+  "categories": ["Other"],
+  "activationEvents": ["onLanguage:plaintext", "onLanguage:php"],
   "main": "./client/out/extension",
   "contributes": {
     "commands": [
@@ -40,11 +35,7 @@
         "phpDoNotOverwriteVariable.trace.server": {
           "scope": "window",
           "type": "string",
-          "enum": [
-            "off",
-            "messages",
-            "verbose"
-          ],
+          "enum": ["off", "messages", "verbose"],
           "default": "off",
           "description": "Traces the communication between VS Code and the language server."
         }
@@ -58,6 +49,7 @@
     "pretest": "npm run compile && npm run lint",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "lint": "cd client && npm run lint && cd ../server && npm run lint && cd ..",
+    "lint:fix": "cd client && npm run lint:fix && cd ../server && npm run lint:fix && cd ..",
     "test": "sh ./scripts/e2e.sh",
     "license": "cd client && npx license-checker --production --json > LICENSES.json && cd ../server && npx license-checker --production --json > LICENSES.json && cd .."
   },
