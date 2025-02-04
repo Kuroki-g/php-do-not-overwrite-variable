@@ -5,18 +5,7 @@
   "license": "GPL-3.0",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.96.0"
-  },
-  "categories": ["Other"],
-  "activationEvents": [],
-  "main": "./client/out/extension",
-  "contributes": {
-    "commands": [
-      {
-        "command": "php-do-not-overwrite-variable.analyzeActivatedFile",
-        "title": "[php-do-not-overwrite-variable] Analyze current activated php file"
-      }
-    ]
+    "node": "*"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
