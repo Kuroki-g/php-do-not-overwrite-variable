@@ -1,5 +1,5 @@
 interface ExampleSettings {
-	maxNumberOfProblems: number;
+  maxNumberOfProblems: number;
 }
 
 const defaultSettings: ExtensionSettings = { maxNumberOfProblems: 1000 };
