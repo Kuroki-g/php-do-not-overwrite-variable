@@ -18,7 +18,7 @@ This extension is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE)
 
 Part of following code
 `server/src/server.ts`
-https://github.com/microsoft/vscode-extension-samples/blob/main/LICENSE
+<https://github.com/microsoft/vscode-extension-samples/blob/main/LICENSE>
 
 MIT License
 
