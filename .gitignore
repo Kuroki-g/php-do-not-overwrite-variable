@@ -148,3 +148,4 @@ client/**/*.js
 client/**/*.map
 server/**/*.js
 server/**/*.map
+*.vsix
