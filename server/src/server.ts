@@ -9,20 +9,14 @@
  * Licensed under the MIT License. See License section in README.md in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 import {
-	type CompletionItem,
-	CompletionItemKind,
 	type Diagnostic,
-	DiagnosticSeverity,
 	DidChangeConfigurationNotification,
 	type DocumentDiagnosticReport,
 	DocumentDiagnosticReportKind,
 	type InitializeParams,
 	type InitializeResult,
-	ProposedFeatures,
-	type TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	TextDocuments,
-	createConnection,
 } from "vscode-languageserver/node";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
