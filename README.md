@@ -1,26 +1,24 @@
 # php-do-not-overwrite-variable README
 
+This extension provides a warning when a variable is rewritten in PHP.
+
 ## Features
 
-[WIP]
-What I want to:
-
-- [ ] VSCode extension
-- [ ] Show warning when the variable is rewritten
-- [ ] Add above by comment or specific prefix
-
-This is the README for your extension "php-do-not-overwrite-variable". After writing up a brief description, we recommend including the following sections.
-
-## In progress
-
-For analyzing PHP code, I am checking the following:
-
-- <https://github.com/nikic/PHP-Parser>
+- Show warning when the variable is rewritten
 
 ## License
 
+### About this extension
+
+This extension is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) file for details.
+
+### Other
+
+- The licenses of the libraries used in this extension are listed in the LICENSES.json file.
+
 Part of following code
-`server/src/server.ts` - https://github.com/microsoft/vscode-extension-samples/blob/main/LICENSE
+`server/src/server.ts`
+https://github.com/microsoft/vscode-extension-samples/blob/main/LICENSE
 
 MIT License
 
