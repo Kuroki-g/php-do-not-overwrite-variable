@@ -12,8 +12,13 @@
   "engines": {
     "vscode": "^1.96.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onLanguage:plaintext", "onLanguage:php"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:plaintext",
+    "onLanguage:php"
+  ],
   "main": "./client/out/extension",
   "contributes": {
     "commands": [
@@ -35,7 +40,11 @@
         "phpDoNotOverwriteVariable.trace.server": {
           "scope": "window",
           "type": "string",
-          "enum": ["off", "messages", "verbose"],
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
           "default": "off",
           "description": "Traces the communication between VS Code and the language server."
         }
