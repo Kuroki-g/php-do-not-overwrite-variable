@@ -1,2 +1,6 @@
 [tools]
 node = "lts"
+
+[tasks.build]
+description = "build extension"
+run = "vsce package"
