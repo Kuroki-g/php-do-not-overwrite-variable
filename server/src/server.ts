@@ -9,21 +9,21 @@
  * Licensed under the MIT License. See License section in README.md in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 import {
-	type Diagnostic,
-	DidChangeConfigurationNotification,
-	type DocumentDiagnosticReport,
-	DocumentDiagnosticReportKind,
-	type InitializeParams,
-	type InitializeResult,
-	TextDocumentSyncKind,
-	TextDocuments,
+  type Diagnostic,
+  DidChangeConfigurationNotification,
+  type DocumentDiagnosticReport,
+  DocumentDiagnosticReportKind,
+  type InitializeParams,
+  type InitializeResult,
+  TextDocumentSyncKind,
+  TextDocuments,
 } from "vscode-languageserver/node";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
+import { ConnectionSingleton } from "./Connection";
 import { GlobalState } from "./GlobalState";
 import { type ExtensionSettings, defaultSettings } from "./types";
 import { validatePHPDocument } from "./validatePHPDocument";
-import { ConnectionSingleton } from "./Connection";
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -34,56 +34,56 @@ const documents = new TextDocuments(TextDocument);
 const connection = ConnectionSingleton.getInstance();
 
 connection.onInitialize((params: InitializeParams) => {
-	const capabilities = params.capabilities;
-	const globalState = GlobalState.getInstance();
+  const capabilities = params.capabilities;
+  const globalState = GlobalState.getInstance();
 
-	// Does the client support the `workspace/configuration` request?
-	// If not, we fall back using global settings.
-	globalState.hasConfigurationCapability = !!(
-		capabilities.workspace && !!capabilities.workspace.configuration
-	);
-	globalState.hasWorkspaceFolderCapability = !!(
-		capabilities.workspace && !!capabilities.workspace.workspaceFolders
-	);
-	globalState.hasDiagnosticRelatedInformationCapability =
-		!!capabilities.textDocument?.publishDiagnostics?.relatedInformation;
+  // Does the client support the `workspace/configuration` request?
+  // If not, we fall back using global settings.
+  globalState.hasConfigurationCapability = !!(
+    capabilities.workspace && !!capabilities.workspace.configuration
+  );
+  globalState.hasWorkspaceFolderCapability = !!(
+    capabilities.workspace && !!capabilities.workspace.workspaceFolders
+  );
+  globalState.hasDiagnosticRelatedInformationCapability =
+    !!capabilities.textDocument?.publishDiagnostics?.relatedInformation;
 
-	const result: InitializeResult = {
-		capabilities: {
-			textDocumentSync: TextDocumentSyncKind.Incremental,
-			// Tell the client that this server supports code completion.
-			completionProvider: {
-				resolveProvider: true,
-			},
-			diagnosticProvider: {
-				interFileDependencies: false,
-				workspaceDiagnostics: false,
-			},
-		},
-	};
-	if (GlobalState.getInstance().hasWorkspaceFolderCapability) {
-		result.capabilities.workspace = {
-			workspaceFolders: {
-				supported: true,
-			},
-		};
-	}
-	return result;
+  const result: InitializeResult = {
+    capabilities: {
+      textDocumentSync: TextDocumentSyncKind.Incremental,
+      // Tell the client that this server supports code completion.
+      completionProvider: {
+        resolveProvider: true,
+      },
+      diagnosticProvider: {
+        interFileDependencies: false,
+        workspaceDiagnostics: false,
+      },
+    },
+  };
+  if (GlobalState.getInstance().hasWorkspaceFolderCapability) {
+    result.capabilities.workspace = {
+      workspaceFolders: {
+        supported: true,
+      },
+    };
+  }
+  return result;
 });
 
 connection.onInitialized(() => {
-	if (GlobalState.getInstance().hasConfigurationCapability) {
-		// Register for all configuration changes.
-		connection.client.register(
-			DidChangeConfigurationNotification.type,
-			undefined,
-		);
-	}
-	if (GlobalState.getInstance().hasWorkspaceFolderCapability) {
-		connection.workspace.onDidChangeWorkspaceFolders((_event) => {
-			connection.console.log("Workspace folder change event received.");
-		});
-	}
+  if (GlobalState.getInstance().hasConfigurationCapability) {
+    // Register for all configuration changes.
+    connection.client.register(
+      DidChangeConfigurationNotification.type,
+      undefined,
+    );
+  }
+  if (GlobalState.getInstance().hasWorkspaceFolderCapability) {
+    connection.workspace.onDidChangeWorkspaceFolders((_event) => {
+      connection.console.log("Workspace folder change event received.");
+    });
+  }
 });
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
@@ -92,38 +92,38 @@ connection.onInitialized(() => {
 let globalSettings: ExtensionSettings = defaultSettings;
 
 connection.onDidChangeConfiguration((change) => {
-	if (GlobalState.getInstance().hasConfigurationCapability) {
-		// Reset all cached document settings
-		GlobalState.getInstance().documentSettings.clear();
-	} else {
-		globalSettings =
-			change.settings.phpDoNotOverwriteVariable || defaultSettings;
-	}
-	// Refresh the diagnostics since the `maxNumberOfProblems` could have changed.
-	// We could optimize things here and re-fetch the setting first can compare it
-	// to the existing setting, but this is out of scope for this example.
-	connection.languages.diagnostics.refresh();
+  if (GlobalState.getInstance().hasConfigurationCapability) {
+    // Reset all cached document settings
+    GlobalState.getInstance().documentSettings.clear();
+  } else {
+    globalSettings =
+      change.settings.phpDoNotOverwriteVariable || defaultSettings;
+  }
+  // Refresh the diagnostics since the `maxNumberOfProblems` could have changed.
+  // We could optimize things here and re-fetch the setting first can compare it
+  // to the existing setting, but this is out of scope for this example.
+  connection.languages.diagnostics.refresh();
 });
 
 // Only keep settings for open documents
 documents.onDidClose((e) => {
-	GlobalState.getInstance().documentSettings.delete(e.document.uri);
+  GlobalState.getInstance().documentSettings.delete(e.document.uri);
 });
 
 connection.languages.diagnostics.on(async (params) => {
-	console.debug(`start diagnostics: ${params.textDocument.uri}`);
-	const document = documents.get(params.textDocument.uri);
-	const report = {
-		kind: DocumentDiagnosticReportKind.Full,
-		items: [] as Diagnostic[],
-	} satisfies DocumentDiagnosticReport;
+  console.debug(`start diagnostics: ${params.textDocument.uri}`);
+  const document = documents.get(params.textDocument.uri);
+  const report = {
+    kind: DocumentDiagnosticReportKind.Full,
+    items: [] as Diagnostic[],
+  } satisfies DocumentDiagnosticReport;
 
-	if (document !== undefined) {
-		const items = await validatePHPDocument(document);
-		report.items.push(...items);
-	}
-	console.debug(`end diagnostics: ${params.textDocument.uri}`);
-	return report satisfies DocumentDiagnosticReport;
+  if (document !== undefined) {
+    const items = await validatePHPDocument(document);
+    report.items.push(...items);
+  }
+  console.debug(`end diagnostics: ${params.textDocument.uri}`);
+  return report satisfies DocumentDiagnosticReport;
 });
 
 // An event that fires when a text document managed by this manager has been opened or the content changes.
@@ -134,7 +134,7 @@ connection.languages.diagnostics.on(async (params) => {
 
 // Installs a handler for the DidChangeWatchedFiles notification.
 connection.onDidChangeWatchedFiles((_change) => {
-	connection.console.log("onDidChangeWatchedFiles");
+  connection.console.log("onDidChangeWatchedFiles");
 });
 
 // This handler provides the initial list of the completion items.
