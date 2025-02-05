@@ -45,8 +45,8 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "clean": "rimraf client/out server/out",
-    "compile": "tsc -b",
-    "watch": "tsc -b -w",
+    "compile": "npm run clean && tsc -b",
+    "watch": "npm run clean && tsc -b -w",
     "pretest": "npm run compile && npm run lint",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "lint": "cd client && npm run lint && cd ../server && npm run lint && cd ..",
