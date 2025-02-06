@@ -17,7 +17,7 @@ class AnalyzeFile extends vscode.Disposable {
   }
 }
 
-const analyzeFile = async (context: vscode.ExtensionContext) => {
+const analyzeFile = async (_context: vscode.ExtensionContext) => {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
     vscode.window.showInformationMessage("No active editor found.");
