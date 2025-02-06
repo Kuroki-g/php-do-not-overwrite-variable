@@ -16,9 +16,9 @@ const validatePHPDocument = async (textDocument: TextDocument) => {
   const settings = await GlobalState.getDocumentSettings(textDocument.uri);
 
   // const parser = PhpParserSingleton.getInstance();
-  const parser = new Engine({
+  const config = {
     parser: {
-      debug: true,
+      debug: false,
       locations: false,
       extractDoc: true,
       suppressErrors: false,
@@ -34,7 +34,12 @@ const validatePHPDocument = async (textDocument: TextDocument) => {
       asp_tags: false,
       short_tags: false,
     },
-  });
+  };
+  if (GlobalState.getInstance().debug) {
+    config.parser.debug = true;
+  }
+
+  const parser = new Engine(config);
 
   const text = textDocument.getText();
   const ast = parser.parseCode(text, textDocument.uri);

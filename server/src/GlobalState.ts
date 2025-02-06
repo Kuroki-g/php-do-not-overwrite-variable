@@ -10,6 +10,8 @@ export class GlobalState {
 
   public hasDiagnosticRelatedInformationCapability = false;
 
+  public debug = false;
+
   public documentSettings: Map<string, Thenable<ExtensionSettings>> = new Map();
 
   private constructor() {}
