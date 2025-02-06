@@ -22,8 +22,8 @@ import {
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { ConnectionSingleton } from "./Connection";
 import { GlobalState } from "./GlobalState";
-import { type ExtensionSettings, defaultSettings } from "./types";
 import { validatePHPDocument } from "./validatePHPDocument";
+// import { type ExtensionSettings, defaultSettings } from "./types";
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -89,15 +89,13 @@ connection.onInitialized(() => {
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-let globalSettings: ExtensionSettings = defaultSettings;
-
-connection.onDidChangeConfiguration((change) => {
+connection.onDidChangeConfiguration((_change) => {
   if (GlobalState.getInstance().hasConfigurationCapability) {
     // Reset all cached document settings
     GlobalState.getInstance().documentSettings.clear();
   } else {
-    globalSettings =
-      change.settings.phpDoNotOverwriteVariable || defaultSettings;
+    // globalSettings =
+    //   change.settings.phpDoNotOverwriteVariable || defaultSettings;
   }
   // Refresh the diagnostics since the `maxNumberOfProblems` could have changed.
   // We could optimize things here and re-fetch the setting first can compare it
