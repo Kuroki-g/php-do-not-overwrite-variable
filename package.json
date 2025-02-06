@@ -16,7 +16,6 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:plaintext",
     "onLanguage:php"
   ],
   "main": "./client/out/extension",
