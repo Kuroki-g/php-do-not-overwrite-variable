@@ -13,7 +13,7 @@ import { GlobalState } from "./GlobalState";
 
 const validatePHPDocument = async (textDocument: TextDocument) => {
   // TODO: add settings, but this doesn't seem to be used now
-  const settings = await GlobalState.getDocumentSettings(textDocument.uri);
+  //   const settings = await GlobalState.getDocumentSettings(textDocument.uri);
 
   // const parser = PhpParserSingleton.getInstance();
   const config = {
