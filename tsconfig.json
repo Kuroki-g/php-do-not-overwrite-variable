@@ -1,4 +1,6 @@
 {
+  // This file is for the root project.
+  // for build, use each project's tsconfig.json
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "out",
