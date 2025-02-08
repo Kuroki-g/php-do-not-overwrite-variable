@@ -3,7 +3,7 @@
   "displayName": "PHP DO NOT OVERWRITE VARIABLE",
   "author": "Kuroki-g",
   "license": "GPL-3.0",
-  "version": "0.0.3-alpha.1",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kuroki-g/php-do-not-overwrite-variable"
@@ -12,12 +12,8 @@
   "engines": {
     "vscode": "^1.96.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onLanguage:php"
-  ],
+  "categories": ["Other"],
+  "activationEvents": ["onLanguage:php"],
   "main": "./client/out/extension",
   "contributes": {
     "commands": [
@@ -39,11 +35,7 @@
         "phpDoNotOverwriteVariable.trace.server": {
           "scope": "window",
           "type": "string",
-          "enum": [
-            "off",
-            "messages",
-            "verbose"
-          ],
+          "enum": ["off", "messages", "verbose"],
           "default": "off",
           "description": "Traces the communication between VS Code and the language server."
         }
