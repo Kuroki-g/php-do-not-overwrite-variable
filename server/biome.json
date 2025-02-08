@@ -2,6 +2,11 @@
   "extends": ["../biome.json"],
   "files": {
     "ignoreUnknown": false,
-    "ignore": [".vscode-test/*", "out/*.js.map", "**/LICENSES.json"]
+    "ignore": [
+      ".vscode-test/*",
+      "out/*.js.map",
+      "**/LICENSES.json",
+      "esbuild.js"
+    ]
   }
 }
