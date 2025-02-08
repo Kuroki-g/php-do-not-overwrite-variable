@@ -56,7 +56,7 @@
     "compile:client": "(cd client && npm run compile) || true",
     "compile:server": "(cd server && npm run compile) || true",
     "compile": "(npm run compile:client && npm run compile:server) || true",
-    "watch": "npm run clean && tsc -b -w",
+    "watch": "npm run clean && (npm run compile:client) && (npm run compile:server)",
     "pretest": "npm run compile && npm run lint",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
     "lint": "cd client && npm run lint && cd ../server && npm run lint && cd ..",
