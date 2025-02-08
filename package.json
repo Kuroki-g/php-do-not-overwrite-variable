@@ -52,10 +52,10 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "clean": "rimraf client/out server/out",
-    "compile": "(npm run compile:client && npm run compile:server) || true",
+    "clean": "rimraf dist && (cd client && npm run clean) && (cd server && npm run clean)",
     "compile:client": "(cd client && npm run compile) || true",
     "compile:server": "(cd server && npm run compile) || true",
+    "compile": "(npm run compile:client && npm run compile:server) || true",
     "watch": "npm run clean && tsc -b -w",
     "pretest": "npm run compile && npm run lint",
     "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
@@ -71,6 +71,7 @@
     "@types/vscode": "^1.96.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vite": "^5.4.14"
   }
 }

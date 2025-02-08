@@ -37,7 +37,8 @@
     "@vscode/test-electron": "^2.4.1",
     "mocha": "^11.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vite": "^5.4.14"
   },
   "dependencies": {
     "php-parser": "^3.2.2",
