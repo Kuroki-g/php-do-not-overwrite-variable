@@ -3,7 +3,7 @@
   "displayName": "PHP DO NOT OVERWRITE VARIABLE",
   "author": "Kuroki-g",
   "license": "GPL-3.0",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.3-alpha.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kuroki-g/php-do-not-overwrite-variable"
