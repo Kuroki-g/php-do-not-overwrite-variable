@@ -17,7 +17,6 @@ const outputChannel = window.createOutputChannel("PHP No Overwrite Variable");
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-  console.debug("Activating php-do-not-overwrite-variable...");
   outputChannel.appendLine("Activating php-do-not-overwrite-variable...");
 
   const serverModule = context.asAbsolutePath(
@@ -60,7 +59,7 @@ export function activate(context: ExtensionContext) {
   // Start the client. This will also launch the server
   client.start();
 
-  console.debug("Activating php-do-not-overwrite-variable done.");
+  outputChannel.appendLine("Activating php-do-not-overwrite-variable done.");
 }
 
 // This method is called when your extension is deactivated
