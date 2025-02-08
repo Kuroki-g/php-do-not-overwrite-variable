@@ -21,7 +21,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "clean": "rimraf out",
-    "compile": "npm run clean && tsc -p .",
+    "compile": "npm run clean && tsc -p ./tsconfig.build.json",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "npx @biomejs/biome check",

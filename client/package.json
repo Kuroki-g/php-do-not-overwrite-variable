@@ -9,7 +9,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "clean": "rimraf out",
-    "compile": "npm run clean && tsc -p .",
+    "compile": "npm run clean && tsc -p ./tsconfig.build.json",
     "lint": "npx @biomejs/biome check",
     "lint:fix": "npx @biomejs/biome check --fix"
   },
