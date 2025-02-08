@@ -15,9 +15,9 @@
     },
     {
       "label":"debug-extension",
-      "type": "npm",
-      "script": "watch",
-      "problemMatcher": "$tsc-watch",
+      "type": "shell",
+      "command": "npm run watch",
+      "problemMatcher": ["$vite", "$tsc", "$tsc-watch"],
       "isBackground": true,
       "presentation": {
         "reveal": "never"
