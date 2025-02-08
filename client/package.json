@@ -2,16 +2,17 @@
   "name": "php-do-not-overwrite-variable-client",
   "description": "For everyone who do not want overwrite variable!",
   "license": "GPL-3.0",
-  "version": "0.0.1",
+  "version": "0.0.3-alpha.1",
   "engines": {
     "vscode": "^1.96.0"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "clean": "rimraf out",
-    "compile": "npm run clean && tsc -p ./tsconfig.build.json",
+    "compile": "npm run clean && npm run check-types && node esbuild.js",
     "lint": "npx @biomejs/biome check",
-    "lint:fix": "npx @biomejs/biome check --fix"
+    "lint:fix": "npx @biomejs/biome check --fix",
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
