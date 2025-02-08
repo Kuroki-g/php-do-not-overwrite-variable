@@ -9,9 +9,10 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "clean": "rimraf out",
-    "compile": "npm run clean && tsc -p ./tsconfig.build.json",
+    "compile": "npm run clean && npm run check-types && node esbuild.js",
     "lint": "npx @biomejs/biome check",
-    "lint:fix": "npx @biomejs/biome check --fix"
+    "lint:fix": "npx @biomejs/biome check --fix",
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

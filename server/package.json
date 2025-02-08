@@ -20,8 +20,9 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
+    "check-types": "tsc --noEmit",
     "clean": "rimraf out",
-    "compile": "npm run clean && tsc -p ./tsconfig.build.json",
+    "compile": "npm run clean && npm run check-types && node esbuild.js",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "npx @biomejs/biome check",
